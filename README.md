@@ -1,4 +1,4 @@
-# py-audio-recorder
+# audio-recorder
 
 A python3 program I created to record audio that can be started and stopped by the user at runtime.
 
