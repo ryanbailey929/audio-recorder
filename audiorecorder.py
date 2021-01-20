@@ -1,8 +1,6 @@
 #author Ryan Bailey
 
-import pyaudio
-import wave
-import threading
+import pyaudio, wave, threading
 
 def test():
     ar = AudioRecorder()
@@ -43,13 +41,11 @@ class AudioRecorder():
         
     def recording_thread_function(self):
         self.__p = pyaudio.PyAudio()
-        
         self.__stream = self.__p.open(format=self.__FORMAT,
                                       channels=self.__CHANNELS,
                                       rate=self.__RATE,
                                       input=True,
                                       frames_per_buffer=self.__CHUNK)
-        
         self.__frames = []
         self.__data_cleared = False
         self.__stop_recording_signal = False
@@ -57,7 +53,6 @@ class AudioRecorder():
             if self.__event.is_set():
                 self.__stop_recording_signal = True
                 break
-            
             data = self.__stream.read(self.__CHUNK)
             self.__frames.append(data)
 
@@ -67,12 +62,9 @@ class AudioRecorder():
 
     def stop_recording(self):
         self.__event.set()
-        
         while self.__recording_thread.is_alive():
             pass
-        
         print("Recording is stopping.")
-
         self.__stream.stop_stream()
         self.__stream.close()
         self.__p.terminate()
